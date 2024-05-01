@@ -56,10 +56,10 @@ public class ProductEditingActivity extends AppCompatActivity {
     private Uri selectedImageUri;
     public final static int GALLERY_REQ_CODE = 1000;
     private JSONObject jsonData = new JSONObject();
-    private String categoryName, productId;
-    private ImageView ivBack, ivProductImg;
+    public static String categoryName, productId;
+    private ImageView ivBack, ivProductImg, ivInfo;
     TextView tvCategoryItem;
-    boolean isDone = false;
+
     SwitchCompat swStatus;
     String status;
     AppCompatSpinner spnCategoryOption2;
@@ -86,7 +86,7 @@ public class ProductEditingActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         ivProductImg = findViewById(R.id.ivProductImg);
         ivBack = findViewById(R.id.ivBack);
-
+        ivInfo = findViewById(R.id.ivInfo);
         tvCategoryItem = findViewById(R.id.tvCategoryItemVer2);
         swStatus = findViewById(R.id.swStatus);
         spnCategoryOption2 = findViewById(R.id.spnCategoryOption2);
@@ -119,6 +119,14 @@ public class ProductEditingActivity extends AppCompatActivity {
 
         product = new ProductCategoryAdapterVer2(ProductEditingActivity.this, R.layout.item_category_ver2, categoryList);
         spnCategoryOption2.setAdapter(product);
+
+        ivInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductEditingActivity.this, ProductInfoDetail.class);
+                startActivity(intent);
+            }
+        });
 
         // set sự kiện chọn category
         spnCategoryOption2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -296,7 +304,7 @@ public class ProductEditingActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(ProductEditingActivity.this, "response false",Toast.LENGTH_SHORT).show();
                 }
-                isDone = true;
+
             }
 
             @Override

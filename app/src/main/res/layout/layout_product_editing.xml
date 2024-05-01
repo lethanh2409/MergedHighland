@@ -87,25 +87,42 @@
 
 
         </LinearLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:hint="Tên sản phẩm"
-            android:textColorHint="@color/smallTextColor"
-            app:hintTextColor="@color/black"
-            android:layout_marginBottom="15dp"
-            android:layout_marginHorizontal="10dp"
-            app:boxStrokeColor="@color/mainColor"
-            android:backgroundTint="@color/mainColor">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etProductName"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:inputType="text"
-                android:padding="10dp" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="horizontal">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:hint="Tên sản phẩm"
+                android:textColorHint="@color/smallTextColor"
+                app:hintTextColor="@color/black"
+                android:layout_marginBottom="15dp"
+                android:layout_marginHorizontal="10dp"
+                app:boxStrokeColor="@color/mainColor"
+                android:backgroundTint="@color/mainColor">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etProductName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:inputType="text"
+                    android:padding="10dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <ImageButton
+                android:id="@+id/ivInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/primary_button_bg_color"
+                android:contentDescription="NULL"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                app:srcCompat="@drawable/baseline_info_24" />
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
