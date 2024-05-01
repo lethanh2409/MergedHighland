@@ -49,15 +49,13 @@ public class ProductCategoryAdapterVer2 extends BaseAdapter {
 
 
         tvCategoryItemVer2 = convertView.findViewById(R.id.tvCategoryItemVer2);      // txtOrderStatus của item nằm trong Spinner
-        tvCategoryItem = convertView.findViewById(R.id.tvCategoryItem);
+
 
         Category category = data.get(position);
-        if (context instanceof ProductAddingActivity || context instanceof ProductEditingActivity) {
-            tvCategoryItemVer2.setText(category.getCategory_name());
-        }
-        if (context instanceof ProductListActivity) {
-            tvCategoryItem.setText(category.getCategory_name());
-        }
+
+        tvCategoryItemVer2.setText(category.getCategory_name());
+
+
         return convertView;
     }
 

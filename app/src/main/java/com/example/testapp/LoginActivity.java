@@ -50,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public static String role, staftName;
 
+    static boolean isInit = false;
+    static boolean isLoad=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

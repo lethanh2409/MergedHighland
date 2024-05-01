@@ -4,6 +4,8 @@ package com.example.testapp;
 
 
 
+import static com.example.testapp.LoginActivity.isInit;
+import static com.example.testapp.LoginActivity.isLoad;
 import static com.example.testapp.R.id.spnFilter;
 import static com.example.testapp.api.ApiService.apiService;
 
@@ -14,6 +16,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.testapp.adapter.ProductCategoryAdapterVer2;
 import com.example.testapp.adapter.ProductManagerAdapter;
 import com.example.testapp.model.Category;
 import com.example.testapp.model.Product;
@@ -44,31 +48,42 @@ public class ProductListActivity extends AppCompatActivity {
     public static RecyclerView rvProduct;
     public static List<Product> productList = new ArrayList<>();
     private ImageView ivBack;
-    private AppCompatSpinner spnFilter;
+    private AppCompatSpinner spnCategoryFilter;
     private ImageButton btnAdd;
     private SearchView svProduct;
     public static String tokenStaff;
     public static List<Category> categoryList = new ArrayList<>();
-    boolean isInit = false;
+    public static List<Category> categoryListFilter = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_product_list);
         if (isInit==false){
-            khoiTao();
+            createCategoryList();
+            createCategoryFilterList();
             isInit=true;
         }
         setControl();
         setEvent();
 
     }
-    private void khoiTao() {
+    private void createCategoryList() {
         categoryList.add(new Category("Cà phê"));
         categoryList.add(new Category("Trà sữa"));
         categoryList.add(new Category("Trà"));
         categoryList.add(new Category("Freeze"));
         categoryList.add(new Category("Nước ngọt"));
+    }
+
+    private void createCategoryFilterList() {
+        categoryListFilter.add(new Category("Tất cả"));
+        categoryListFilter.add(new Category("Cà phê"));
+        categoryListFilter.add(new Category("Trà sữa"));
+        categoryListFilter.add(new Category("Trà"));
+        categoryListFilter.add(new Category("Freeze"));
+        categoryListFilter.add(new Category("Nước ngọt"));
     }
 
     @Override
@@ -100,6 +115,39 @@ public class ProductListActivity extends AppCompatActivity {
             }
         });
 
+        ProductCategoryAdapterVer2 productCategoryAdapterVer2 = new ProductCategoryAdapterVer2(ProductListActivity.this, R.layout.item_category_ver2, categoryListFilter);
+        spnCategoryFilter.setAdapter(productCategoryAdapterVer2);
+        spnCategoryFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String categoryName = categoryListFilter.get(position).getCategory_name();
+                Log.i("Category", categoryName);
+
+                List<Product> filtedList = new ArrayList<>();
+                if(categoryName.equals("Tất cả")) {
+                    filtedList = productList; // Nếu chọn "Tất cả", tải tất cả sản phẩm
+                } else {
+                    for(Product product: productList){
+                        if(product.getCategory().getCategory_name().equals(categoryName)){
+                            filtedList.add(product); // Nếu không, lọc sản phẩm theo danh mục
+                        }
+                    }
+                }
+
+                if(filtedList.isEmpty() && isLoad==true){
+                    Toast.makeText(ProductListActivity.this, "No data", Toast.LENGTH_SHORT).show();
+                }
+                productManagerAdapter = new ProductManagerAdapter(rvProduct.getContext(), filtedList);
+                rvProduct.setAdapter(productManagerAdapter);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         // gạch ngang dưới chân từng item
         rvProduct.setLayoutManager(new LinearLayoutManager(this));
 
@@ -121,6 +169,9 @@ public class ProductListActivity extends AppCompatActivity {
         });
     }
 
+
+
+    // filter Searchview
     private void filterList(String newText) {
         List<Product> filterList = new ArrayList<>();
 
@@ -141,7 +192,7 @@ public class ProductListActivity extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     private void setControl() {
         rvProduct = findViewById(R.id.rvProduct);
-        spnFilter = findViewById(R.id.spnFilter);
+        spnCategoryFilter = findViewById(R.id.spnCategoryFilter);
         btnAdd = findViewById(R.id.btnAdd);
         ivBack = findViewById(R.id.ivBack);
         svProduct = findViewById(R.id.svProduct);
@@ -158,6 +209,7 @@ public class ProductListActivity extends AppCompatActivity {
                         productList = result.getData();     // lấy list sp từ json
                         productManagerAdapter = new ProductManagerAdapter(rvProduct.getContext(), productList);
                         rvProduct.setAdapter(productManagerAdapter);
+                        isLoad=true;
                     } else {
                         Toast.makeText(rvProduct.getContext(), "result null", Toast.LENGTH_SHORT).show();
                     }

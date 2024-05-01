@@ -125,7 +125,6 @@ public class ProductAddingActivity extends AppCompatActivity {
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("Please wait...");
         ProductCategoryAdapterVer2 productCategoryAdapterVer2 = new ProductCategoryAdapterVer2(ProductAddingActivity.this, R.layout.item_category_ver2, categoryList);
-        Log.i("TAGTAG", ""+categoryList);
         spnCategoryOption.setAdapter(productCategoryAdapterVer2);
 
 
