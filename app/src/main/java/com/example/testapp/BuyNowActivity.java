@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.example.testapp.response.ApiResponse;
 import com.example.testapp.response.EntityStatusResponse;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class BuyNowActivity extends AppCompatActivity {
     LinearLayout lyEditAdress;
     private Toolbar appBar;
     String token;
-    Button btnOrder, btnChangeAddress, btnDelivery, btnPickUp;
+    Button btnOrder, btnChangeAddress, btnDelivery, btnPickUp, btn_showListCoupon;
     public static float price,  tPrice,  dCost, priceBySize;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +96,7 @@ public class BuyNowActivity extends AppCompatActivity {
         tvFlexible = findViewById(R.id.tvFlexible);
         lyEditAdress = findViewById(R.id.lyEditAdress);
         appBar = findViewById(R.id.app_bar);
-
+        btn_showListCoupon = findViewById(R.id.btn_showListCoupon);
 
     }
 
@@ -188,6 +190,14 @@ public class BuyNowActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btn_showListCoupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BuyNowActivity.this, CouponUserActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -232,7 +242,12 @@ public class BuyNowActivity extends AppCompatActivity {
         if (intent != null) {
             OrderRequest orderRequest = (OrderRequest) intent.getSerializableExtra("buyNow");
             sp  = (Product) intent.getSerializableExtra("product");
-            priceBySize = (float) intent.getSerializableExtra("priceBySize");
+            Serializable priceBySizeSerializable = intent.getSerializableExtra("priceBySize");
+            if (priceBySizeSerializable != null) {
+                priceBySize = (Float) priceBySizeSerializable;
+            } else {
+                Log.i("XXXX", "null");
+            }
             productList = new ArrayList<>();
             productList.add(sp);
             System.out.println("Danh sách sản phẩm " + productList.get(0).getProductName());

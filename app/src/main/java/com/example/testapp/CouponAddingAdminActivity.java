@@ -152,11 +152,11 @@ public class CouponAddingAdminActivity extends AppCompatActivity {
                 if (swStatus.isChecked()) {
                     // The switch is enabled/checked
                     status = "active";
-                    swStatus.setText("Đang chạy");
+                    swStatus.setText("Active");
                 } else {
                     // The switch is disabled/unchecked
                     status = "unactive";
-                    swStatus.setText("Ngưng chạy");
+                    swStatus.setText("Inactive");
                 }
             }
         });

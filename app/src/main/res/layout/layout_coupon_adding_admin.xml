@@ -232,7 +232,7 @@
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/swStatus"
-                        android:layout_width="120dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:text="Inactive" />
                 </LinearLayout>

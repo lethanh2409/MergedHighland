@@ -82,9 +82,9 @@ public class ProductInfoDetail extends AppCompatActivity {
                             etProductStatus.setTextColor(Integer.valueOf(R.color.mainColor));
                         }
                         etProductCategory.setText(product2.getCategory().getCategory_name());
-                        etCreatedStaff.setText(String.valueOf(product2.getStaffCreated().getId()));
+                        etCreatedStaff.setText(String.valueOf(product2.getStaffCreated().getFirstName())+" "+product2.getStaffCreated().getLastName());
                         etCreatedDate.setText(product2.getCreatedAt());
-                        etUpdatedStaff.setText(String.valueOf(product2.getStaffUpdated().getId()));
+                        etUpdatedStaff.setText(String.valueOf(product2.getStaffUpdated().getFirstName())+" "+product2.getStaffUpdated().getLastName());
                         etUpdatedDate.setText(product2.getUpdatedAt());
                     } else {
                         Toast.makeText(ProductInfoDetail.this, "product không tồn tại",Toast.LENGTH_SHORT).show();

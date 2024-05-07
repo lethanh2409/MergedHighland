@@ -1,5 +1,7 @@
 package com.example.testapp;
 
+
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -46,9 +48,9 @@ import retrofit2.Response;
 
 public class UserOrderActivity extends AppCompatActivity {
     RecyclerView rvProductList;
-    Button btnOrder, btnEditAddress, btnPickUp, btnDelivery;
+    Button btnOrder, btnEditAddress, btnPickUp, btnDelivery, btn_showListCoupon;
     static ProductInOrderAdapter adapter;
-    static TextView tvProductPrice;
+    static TextView tvProductPrice, tv_productPrice;
     static TextView tvTotalPrice;
     TextView tvAddress, tvFlexible, tvDeliveryCost, tvUserAddress;
     EntityStatusResponse<UserTemp> userInfor;
@@ -64,12 +66,15 @@ public class UserOrderActivity extends AppCompatActivity {
     public float dCost = 15000;
 
     static String token;
+    static String tokenUser;
+    public static int totalPriceUser;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_order);
         SharedPreferences sharedPreferences = getSharedPreferences("MyPerfs", Context.MODE_PRIVATE);
-        token =  sharedPreferences.getString("token", null);
+        //token =  sharedPreferences.getString("token", null);
+
         setControl();
         dCost = Float.parseFloat(String.valueOf(tvDeliveryCost.getText()));
         dCost = 15000;
@@ -95,25 +100,7 @@ public class UserOrderActivity extends AppCompatActivity {
 
     }
 
-    public static void callApiGetListProduct() {
-        ApiService.apiService.getAllCart("Bearer "+token).enqueue(new Callback<EntityStatusResponse<FullCart>>() {
-            @Override
-            public void onResponse(@NonNull Call<EntityStatusResponse<FullCart>> call, @NonNull Response<EntityStatusResponse<FullCart>> response) {
-                EntityStatusResponse<FullCart> list = response.body();
-                productList.clear();
-                productList.addAll(list.getData().getCart_detail());
-                totalProductPrice = list.getData().getTotal_price();
-                tvProductPrice.setText(UserOrderActivity.formatNumber(totalProductPrice));
-                tvTotalPrice.setText(formatNumber(totalProductPrice + 15000));
-                adapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onFailure(Call<EntityStatusResponse<FullCart>> call, Throwable t) {
-                System.out.println("Lỗi truy cập giỏ hàng");
-            }
-        });
-    }
 
     public void setTotalPrice(float total, float delivery, float discount) {
         float updatePrice = totalProductPrice + delivery - discount;
@@ -140,9 +127,12 @@ public class UserOrderActivity extends AppCompatActivity {
         lyDeliveryCost = findViewById(R.id.lyDeliveryCost);
         btnDelivery = findViewById(R.id.btnDelivery);
         appBar = findViewById(R.id.app_bar);
+        btn_showListCoupon = findViewById(R.id.btn_showListCoupon);
+        tv_productPrice = findViewById(R.id.tv_productPrice);
     }
 
     public void setEvent() {
+        tokenUser = "eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3MTQ1ODYxMjksImV4cCI6MTcxNTE5MDkyOSwidXNlcm5hbWUiOiIrODQ5NzkzNDUxOTAiLCJhdXRob3JpdGllcyI6IkNVU1RPTUVSIn0.EHybDWB3knlYai6LKsAToSqa_eCv6XRtGfEG4SKir9TWyJLf3J5Lc12--yp7LTAF";
         int cornerRadiusPixels = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
                 12, // giá trị ban đầu của bán kính ở đơn vị dp
@@ -212,7 +202,16 @@ public class UserOrderActivity extends AppCompatActivity {
             }
         });
 
+        btn_showListCoupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserOrderActivity.this, CouponUserActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        String str = String.valueOf(tv_productPrice.getText()).replaceAll("[^0-9]", "");;
+        totalPriceUser = Integer.parseInt(str);
     }
 
 
@@ -241,7 +240,7 @@ public class UserOrderActivity extends AppCompatActivity {
 
 
     public void callApiOrderInCart() {
-        ApiService.apiService.orderInCart("Bearer "+token).enqueue(new Callback<EntityStatusResponse<OrderID>>() {
+        ApiService.apiService.orderInCart("Bearer "+tokenUser).enqueue(new Callback<EntityStatusResponse<OrderID>>() {
             @Override
             public void onResponse(Call<EntityStatusResponse<OrderID>> call, Response<EntityStatusResponse<OrderID>> response) {
                 System.out.println("Đặt hàng thành công!");
@@ -262,7 +261,7 @@ public class UserOrderActivity extends AppCompatActivity {
     }
 
     public void callApiGetUserInfor() {
-        ApiService.apiService.getUserInfor("Bearer "+token).enqueue(new Callback<EntityStatusResponse<UserTemp>
+        ApiService.apiService.getUserInfor("Bearer "+tokenUser).enqueue(new Callback<EntityStatusResponse<UserTemp>
                 >() {
             @Override
             public void onResponse(Call<EntityStatusResponse<UserTemp>> call, Response<EntityStatusResponse<UserTemp>> response) {
@@ -319,5 +318,25 @@ public class UserOrderActivity extends AppCompatActivity {
 
         dialog.show();
 
+    }
+
+    public static void callApiGetListProduct() {
+        ApiService.apiService.getAllCart("Bearer "+ tokenUser).enqueue(new Callback<EntityStatusResponse<FullCart>>() {
+            @Override
+            public void onResponse(@NonNull Call<EntityStatusResponse<FullCart>> call, @NonNull Response<EntityStatusResponse<FullCart>> response) {
+                EntityStatusResponse<FullCart> list = response.body();
+                productList.clear();
+                productList.addAll(list.getData().getCart_detail());
+                totalProductPrice = list.getData().getTotal_price();
+                tvProductPrice.setText(UserOrderActivity.formatNumber(totalProductPrice));
+                tvTotalPrice.setText(formatNumber(totalProductPrice + 15000));
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<EntityStatusResponse<FullCart>> call, Throwable t) {
+                System.out.println("Lỗi truy cập giỏ hàng");
+            }
+        });
     }
 }

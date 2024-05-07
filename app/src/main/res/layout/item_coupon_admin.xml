@@ -41,23 +41,42 @@
                         android:text="Active"
                         android:textColor="@color/green"/>
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_gravity="left"
-                    android:textSize="16sp"
-                    android:text="Giảm 20.000 đ" />
-                <TextView
-                    android:id="@+id/tv_minium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/TextGreyColor"
-                    android:text="Đơn tối thiểu 40.000 đ" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:layout_gravity="left"
+                            android:textSize="16sp"
+                            android:text="Giảm 20.000 đ" />
+                        <TextView
+                            android:id="@+id/tv_minium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/TextGreyColor"
+                            android:text="Đơn tối thiểu 40.000 đ" />
+                    </LinearLayout>
+                    <ImageButton
+                        android:id="@+id/btnDelete"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="110dp"
+                        android:background="@drawable/primary_button_bg_color"
+                        android:contentDescription="NULL"
+                        android:layout_gravity="center_vertical|right"
+                        app:srcCompat="@drawable/baseline_delete_24"
+                        android:visibility="visible"/>
+                </LinearLayout>
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"

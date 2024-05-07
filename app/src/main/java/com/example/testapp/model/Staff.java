@@ -7,7 +7,10 @@ import java.io.Serializable;
 public class Staff implements Serializable {
     @SerializedName("staff_id")
     private int id;
-    private String firstName, lastName;
+    @SerializedName("firstname")
+    private String firstName;
+    @SerializedName("lastname")
+    private String lastName;
 
     public int getId() {
         return id;

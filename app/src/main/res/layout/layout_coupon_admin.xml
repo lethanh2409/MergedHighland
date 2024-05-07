@@ -71,6 +71,7 @@
                 android:layout_gravity="end"
                 android:layout_toEndOf="@+id/btnCancelDateRange"
                 android:layout_centerVertical="true"
+                android:background="@drawable/style_spinner_order_status"
                 android:layout_marginHorizontal="15dp"
                 android:dropDownVerticalOffset="40dp" />
             <ListView

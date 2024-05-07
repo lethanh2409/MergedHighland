@@ -1,24 +1,33 @@
 package com.example.testapp;
 
 
+import static com.example.testapp.LoginActivity.isLoad;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.SearchView;
 
 
 import com.example.testapp.adapter.CouponAdapter;
+import com.example.testapp.adapter.ProductCategoryAdapterVer2;
+import com.example.testapp.adapter.ProductManagerAdapter;
+import com.example.testapp.adapter.StatusAdapter;
 import com.example.testapp.api.ApiService;
 import com.example.testapp.model.Coupon;
+import com.example.testapp.model.Product;
 import com.example.testapp.response.CommonResponse;
 import com.google.android.gms.common.internal.service.Common;
 
@@ -38,11 +47,16 @@ public class CouponListAdminActivity extends AppCompatActivity {
     public static List<Coupon> couponList= new ArrayList<>();
     private SearchView svCoupon;
     public static String tokenStaff;
-    public static String tokenAdmin = "Bearer "+"eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3MTQxMTcwMTUsImV4cCI6MTcxNDcyMTgxNSwidXNlcm5hbWUiOiJBRE1JTjIiLCJhdXRob3JpdGllcyI6IkFETUlOIn0.DMlccdkRT1OTq3RC3IoXEOP7rf0nHzxK_hGWlEjfjfBUSmcEzf3cUFSMDVqn8ZniZ";
+    AppCompatSpinner spnCouponFilter;
+    List<String> listStatus = new ArrayList<>();
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_coupon_admin);
+        listStatus.add("all");
+        listStatus.add("active");
+        listStatus.add("unactive");
         setControl();
         setEvent();
     }
@@ -52,6 +66,7 @@ public class CouponListAdminActivity extends AppCompatActivity {
         lvCouponList = findViewById(R.id.lv_couponList);
         ivBack = findViewById(R.id.ivBack);
         svCoupon = findViewById(R.id.svCoupon);
+        spnCouponFilter = findViewById(R.id.spnCouponFilter);
     }
 
     @Override
@@ -70,6 +85,43 @@ public class CouponListAdminActivity extends AppCompatActivity {
                 startActivity(new Intent(CouponListAdminActivity.this, CouponAddingAdminActivity.class));
             }
         });
+
+
+
+        StatusAdapter spinnerAdapter = new StatusAdapter(this, R.layout.item_category_ver2, listStatus);
+        spnCouponFilter.setAdapter(spinnerAdapter);
+        spnCouponFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String categoryName = listStatus.get(position);
+                Log.i("Category", categoryName);
+
+                List<Coupon> filtedList = new ArrayList<>();
+                if(categoryName.equals("all")) {
+                    filtedList = couponList; // Nếu chọn "Tất cả", tải tất cả sản phẩm
+                } else {
+                    for(Coupon coupon: couponList){
+                        if(coupon.getStatus().equals(categoryName)){
+                            filtedList.add(coupon); // Nếu không, lọc sản phẩm theo danh mục
+                        }
+                    }
+                }
+
+                if(filtedList.isEmpty()){
+                    Toast.makeText(CouponListAdminActivity.this, "No data", Toast.LENGTH_SHORT).show();
+                }
+                couponManagerAdapter = new CouponAdapter(CouponListAdminActivity.this, R.layout.item_coupon_admin, filtedList);
+                lvCouponList.setAdapter(couponManagerAdapter);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,10 +148,10 @@ public class CouponListAdminActivity extends AppCompatActivity {
 
                 if (filteredData.isEmpty()) {
                     Toast.makeText(CouponListAdminActivity.this, "No data", Toast.LENGTH_LONG).show();
-                } else {
-                    couponManagerAdapter = new CouponAdapter(CouponListAdminActivity.this, R.layout.item_coupon_admin, filteredData);
-                    lvCouponList.setAdapter(couponManagerAdapter);
                 }
+                couponManagerAdapter = new CouponAdapter(CouponListAdminActivity.this, R.layout.item_coupon_admin, filteredData);
+                lvCouponList.setAdapter(couponManagerAdapter);
+
 
                 return false;
             }
@@ -116,7 +168,7 @@ public class CouponListAdminActivity extends AppCompatActivity {
 
 
     public static void getAllCoupon() {
-        ApiService.apiService.adminGetAllCoupon(tokenAdmin).enqueue(new Callback<CommonResponse<Coupon>>() {
+        ApiService.apiService.adminGetAllCoupon(tokenStaff).enqueue(new Callback<CommonResponse<Coupon>>() {
             @Override
             public void onResponse(Call<CommonResponse<Coupon>> call, Response<CommonResponse<Coupon>> response) {
                 if(response.isSuccessful()){

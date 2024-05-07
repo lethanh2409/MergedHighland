@@ -33,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setEvent() {
         Khoitao();
+
         recyclerView.setHasFixedSize(true);
         // Thiết lập LayoutManager GridLayoutManager với 2 cột
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));

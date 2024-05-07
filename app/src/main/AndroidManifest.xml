@@ -158,6 +158,9 @@
         <activity android:name=".ProductInfoDetail"
             android:exported="true"
             android:theme="@style/Base.Theme.TestApp"/>
+
+        <activity android:name=".CouponUserActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

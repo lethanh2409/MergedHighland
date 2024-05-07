@@ -102,16 +102,10 @@
                         android:textStyle="bold"
                         android:textSize="18sp"
                         />
-                    <com.colormoon.readmoretextview.ReadMoreTextView
-                        android:id="@+id/tvReadMore"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/imageView6"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_margin="20dp"
-                        android:text="PhinDi Choco - Cà phê Phin thế hệ mới với chất Phin êm hơn, kết hợp cùng Choco ngọt tan mang đến hương vị mới lạ" />
+                        android:id="@+id/tv"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/llSize"

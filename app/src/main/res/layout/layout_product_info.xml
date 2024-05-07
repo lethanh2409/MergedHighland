@@ -152,29 +152,6 @@
             android:padding="10dp"
             android:focusable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:hint="Mô tả"
-        app:hintTextColor="@color/black"
-        android:textColorHint="@color/smallTextColor"
-        android:layout_marginHorizontal="10dp"
-        android:backgroundTint="@color/mainColor"
-        app:boxStrokeColor="@color/mainColor"
-        android:layout_marginBottom="10dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:inputType="textMultiLine"
-            android:lines="4"
-            android:gravity="top"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/etDescription"
-            android:padding="10dp"
-            android:focusable="false"/>
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -258,5 +235,27 @@
             android:focusable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:hint="Mô tả"
+        app:hintTextColor="@color/black"
+        android:textColorHint="@color/smallTextColor"
+        android:layout_marginHorizontal="10dp"
+        android:backgroundTint="@color/mainColor"
+        app:boxStrokeColor="@color/mainColor"
+        android:layout_marginBottom="10dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:gravity="top"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/etDescription"
+            android:padding="10dp"
+            android:focusable="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

@@ -46,7 +46,7 @@ dependencies {
     //Oject => JSON
     implementation ("com.google.code.gson:gson:2.10.1")
     //show more
-   //implementation("com.borjabravo:readmoretextview:2.1.0")
+//   implementation("com.borjabravo:readmoretextview:2.1.0")
     //load img
     implementation ("com.github.bumptech.glide:glide:4.14.2")
     implementation("androidx.activity:activity:1.9.0")
